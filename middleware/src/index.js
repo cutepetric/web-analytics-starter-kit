@@ -48,7 +48,12 @@
          *   - The next request will keep the same session id and extend the TTL for 30 more minutes
          */
         const sessionId = _getSessionId() || _uuidv4();
-        let cookieValue = `${COOKIE_NAME}=${sessionId}; Max-Age=1800; path=/; secure`
+        let cookieValue = `${COOKIE_NAME}=${sessionId}; Max-Age=1800; path=/`;
+
+        // Check if the current request is secure (HTTPS)
+        if (window.location.protocol === 'https:') {
+            cookieValue += '; secure';
+        }
 
         if (domain) {
             cookieValue += `; domain=${domain}`
